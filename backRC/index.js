@@ -14,10 +14,14 @@ app.use(cors());
 
 app.use('/api/v1', userRouter);
 
+const PORT = process.env.PORT || 4000;
+PORT
+
+
 app.get('/api/v1', (req, res) => {
   res.send('Hello, World!');
 });
 
 app.listen(PORT, () => {
-  console.log('Server is running on port 3000');
+  console.log(`Server is running on http://localhost: + {PORT}`);
 });

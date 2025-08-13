@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  
 }
 
 datasource db {
@@ -14,12 +13,108 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
 model User {
   id        Int      @id @default(autoincrement())
   name      String
   password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Driver {
+  id                   Int      @id @default(autoincrement())
+  patent               String
+  brand                String
+  model                String
+  year                 Int
+  numberChassis        String
+  trackerBrand         String
+  numberPermission     String
+  expirationPermission String
+  policyNumber         String
+  policyExpiration     String
+  nameOwner            String
+  phoneOwner           String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Truck {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Trailer {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Transport {
+  id                   Int    @id @default(autoincrement())
+  name                 String
+  address              String
+  country              String
+  numberPemission      String
+  expirationPermission String
+  numberPolicy         String
+  expirationPolicy     String
+  nameRepresentative   String
+  phoneRepresentative  String
+  emailRepresentative  String
+  nameResponsible      String
+  phoneResponsible     String
+  emailResponsible     String
+  proxy                String
+  referencePerson      String
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ForHire {
+  id               Int      @id @default(autoincrement())
+  name             String
+  code             String
+  address          String
+  email            String
+  permitExpiration String
+  nacionality      String
+  havePermission   Boolean
+  numberPermission String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Addressee {
+  id          Int      @id @default(autoincrement())
+  name        String
+  address     String
+  nacionality String
+  email       String
+  cuil        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Consignment {
+  id          Int      @id @default(autoincrement())
+  name        String
+  address     String
+  nacionality String
+  email       String
+  cuil        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model OrderGuide {
+  id        Int      @id @default(autoincrement())
+  name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

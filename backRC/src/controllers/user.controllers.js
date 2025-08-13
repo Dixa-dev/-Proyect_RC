@@ -39,6 +39,17 @@ export const getAllUsers = async (req, res) => {
 export const createUser = async (req, res) => {
   try {
     const { name, password } = req.body;
+    if (!name || !password) {
+      return res.status(400).json({ error: "Name and password are required." });
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { name },
+    });
+    if (existingUser) {
+      return res.status(409).json({ error: "User with this name already exists." });
+    }
+    
     const newUser = await prisma.user.create({
       data: { name, password },
     });

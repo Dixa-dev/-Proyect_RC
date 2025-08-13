@@ -18,10 +18,10 @@ const PORT = process.env.PORT || 4000;
 PORT
 
 
-app.get('/api/v1', (req, res) => {
-  res.send('Hello, World!');
+app.get('/', (req, res) => {
+  res.send('Hello, Mauri!');
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost: + {PORT}`);
+  console.log(`Server is running on http://localhost: + ${PORT}`);
 });

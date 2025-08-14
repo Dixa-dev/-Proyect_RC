@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../../db.js";
 
 export const getById = async (req, res) => {
   try {
@@ -38,8 +37,8 @@ export const createUser = async (req, res) => {
       return res.status(400).json({ error: "Name and password are required." });
     }
 
-    const existingUser = await prisma.user.findUnique({
-      where: { name: req.body.name },
+    const existingUser = await prisma.user.findFirst({
+      where: { name },
     });
 
     if (existingUser) {

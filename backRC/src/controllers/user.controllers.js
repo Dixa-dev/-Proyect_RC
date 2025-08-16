@@ -1,4 +1,5 @@
 import { prisma } from "../../db.js";
+import jwt from 'jsonwebtoken';
 
 export const getById = async (req, res) => {
   try {
@@ -89,3 +90,34 @@ export const deleteUser = async (req, res) => {
       .json({ error: "An error occurred while deleting the user." });
   }
 };
+
+
+
+export const loginUser = async (req, res) => {
+  const { name, password } = req.body;
+
+  try {
+    if (!name || !password) {
+      return res.status(400).json({ error: "Name and password are required." });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: { name:name,password: password },
+    });
+
+    if (!user) {
+      return res.status(401).json({ error: "Invalid name or password." });
+    }
+
+    const token = jwt.sign({ name: user.name, password: user.password }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    return  res.status(200).json({token , message: "Login successful.", });
+
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while logging in the user." });
+  }
+}

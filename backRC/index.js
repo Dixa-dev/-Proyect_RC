@@ -1,13 +1,14 @@
 import express from 'express';
-import dotenv from 'dotenv';
+import cors from 'cors';
+// import dotenv from 'dotenv';
 import userRouter from './src/router/user.routes.js';
 import truckerRouter from './src/router/trucker.routes.js';
 import driverRouter from './src/router/driver.routes.js';
 import transportRouter from './src/router/transport.routes.js';
 import forhideRouter from './src/router/forhide.routes.js';
-import cors from 'cors';
+import clientRouter from './src/router/cliente.routes.js';
 
-dotenv.config();
+//dotenv.config();
 
 const app = express();
 
@@ -21,9 +22,10 @@ app.use('/api/v1', truckerRouter);
 app.use('/api/v1', driverRouter);
 app.use('/api/v1', transportRouter);
 app.use('/api/v1', forhideRouter);
+app.use('/api/v1', clientRouter);
 
 const PORT = process.env.PORT || 4000;
-PORT
+
 
 
 app.get('/', (req, res) => {

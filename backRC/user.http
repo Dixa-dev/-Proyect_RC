@@ -28,7 +28,7 @@ DELETE {{apieventoLocal}}/users/10
 
 
 ###
-GET {{apieventoLocal}}/users/1
+GET {{apieventoLocal}}/users/2
 
 ###
 POST {{apieventoLocal}}/login

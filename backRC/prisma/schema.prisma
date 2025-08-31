@@ -19,6 +19,27 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("user")
+}
+
+model TravelGuide {
+  id          Int          @id @default(autoincrement())
+  Address     Addressee?
+  consignment Consignment?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("travel_guide")
+}
+
+model LoadOrder {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("load_order")
 }
 
 model Driver {
@@ -37,6 +58,8 @@ model Driver {
   phoneOwner           String
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
+
+  @@map("driver")
 }
 
 model Truck {
@@ -44,6 +67,8 @@ model Truck {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("truck")
 }
 
 model Trailer {
@@ -51,10 +76,12 @@ model Trailer {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("trailer")
 }
 
 model Transport {
-  id                   Int    @id @default(autoincrement())
+  id                   Int                @id @default(autoincrement())
   name                 String
   address              String
   country              String
@@ -70,24 +97,11 @@ model Transport {
   emailResponsible     String
   proxy                String
   referencePerson      String
+  factura              FacturaProveedor[]
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
 
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model ForHire {
-  id               Int      @id @default(autoincrement())
-  name             String
-  code             String
-  address          String
-  email            String
-  permitExpiration String
-  nacionality      String
-  havePermission   Boolean
-  numberPermission String
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  @@map("transport")
 }
 
 model Addressee {
@@ -99,6 +113,11 @@ model Addressee {
   cuil        String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  travelGuide  TravelGuide @relation(fields: [tavelGuideId], references: [id], onDelete: Cascade)
+  tavelGuideId Int         @unique
+
+  @@map("addressee")
 }
 
 model Consignment {
@@ -110,6 +129,11 @@ model Consignment {
   cuil        String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  tavelGuide   TravelGuide @relation(fields: [tavelGuideId], references: [id], onDelete: Cascade)
+  tavelGuideId Int         @unique
+
+  @@map("consignment")
 }
 
 model OrderGuide {
@@ -117,4 +141,107 @@ model OrderGuide {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("order_guide")
+}
+
+//Administracion
+
+model Client {
+  id        Int                     @id @default(autoincrement())
+  name      String
+  celular   String
+  email     String
+  factura   ClienteFacturaCliente[]
+  createdAt DateTime                @default(now())
+  updatedAt DateTime                @updatedAt
+
+  @@map("client")
+}
+
+model Presupuesto {
+  id         Int      @id @default(autoincrement())
+  name       String
+  cotizacion Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("presupuesto")
+}
+
+model ClienteFacturaCliente {
+  id               Int            @id @default(autoincrement())
+  name             String
+  valor            Float
+  clientId         Int
+  client           Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  facturaClienteId Int
+  facturaCliente   FacturaCliente @relation(fields: [facturaClienteId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("cliente_factura_cliente")
+}
+
+model FacturaCliente {
+  id              Int                     @id @default(autoincrement())
+  name            String
+  valor           Float
+  efectivo        Float
+  cheque          Float
+  dolar           Float
+  cotizacionDolar Float
+  estado          String
+  cliente         ClienteFacturaCliente[]
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+
+  @@map("factura_cliente")
+}
+
+model reciboCobranzaCliente {
+  id        Int      @id @default(autoincrement())
+  name      String
+  valor     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("factura_proveedor")
+}
+
+model FacturaProveedor {
+  id          Int       @id @default(autoincrement())
+  name        String
+  valorViaje  Float
+  transportId Int
+  transport   Transport @relation(fields: [transportId], references: [id], onDelete: Cascade)
+
+  estado    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("proveedor")
+}
+
+model ReciboCobranzaProveedor {
+  id        Int      @id @default(autoincrement())
+  name      String
+  valor     Float
+  estado    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("recibo_cobranza_proveedor")
+}
+
+model OrdenPagoProveedor {
+  id        Int      @id @default(autoincrement())
+  name      String
+  valor     Float
+  estado    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("orden_pago_proveedor")
 }

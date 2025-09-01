@@ -28,4 +28,17 @@ DELETE {{apieventoLocal}}/users/10
 
 
 ###
-GET {{apieventoLocal}}/users/1
+GET {{apieventoLocal}}/users/2
+
+###
+POST {{apieventoLocal}}/login
+Content-Type: application/json
+
+{
+  "name": "seba",
+  "password": "RCseba"
+}
+
+###
+GET {{apieventoLocal}}/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2ViYSIsInBhc3N3b3JkIjoiUkNzZWJhIiwiaWF0IjoxNzU1MzUyNjQ5LCJleHAiOjE3NTUzNTYyNDl9.VP36HPlVqIf2Cy1mE9XmanLool9MAM2QvfSY56EWxy4

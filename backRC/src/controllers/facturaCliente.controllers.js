@@ -1,8 +1,10 @@
 import { prisma } from "../../db.js";
 
 export const createFacturaCliente = async (req, res) => {
-  const { name, valor, efectivo, cheque, dolar, cotizacionDolar, estado,  } =
+  const { name, valor, efectivo, cheque, dolar, cotizacionDolar, estado, clienteId} =
     req.body;
+
+       console.log(req.body);
   try {
     const newFacturaCliente = await prisma.facturaCliente.create({
       data: {
@@ -13,10 +15,15 @@ export const createFacturaCliente = async (req, res) => {
         dolar,
         cotizacionDolar,
         estado,
+        clienteId
         // Conectar con el cliente existente con id 1
       },
-      includes: { cliente: true },
+      
+      include: {
+        cliente: true
+      }
     });
+ 
     
 
     res.json({

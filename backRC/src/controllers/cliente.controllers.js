@@ -2,12 +2,14 @@ import {prisma} from "../../db.js";
 
 
 export const createclient = async (req, res) => {
-    const { data } = req.body;
+    const { name,celular,email } = req.body;
     try {
       const newclient = await prisma.client.create({
-        data: data,
+        data: {name,celular,email}
       });
       res.status(201).json(newclient);
+
+      
     } catch (error) {
       res
         .status(500)
@@ -18,12 +20,14 @@ export const createclient = async (req, res) => {
     export const getAllclients = async (req, res) => {
         try {
           const clients = await prisma.client.findMany();
+          
           res.json(clients);
         } catch (error) {
           res
             .status(500)
             .json({ error: "An error occurred while fetching clients." });
         }
+        
       };
 
     export const getclientById = async (req, res) => {   
@@ -31,10 +35,15 @@ export const createclient = async (req, res) => {
       const { id } = req.params;
       const client = await prisma.client.findUnique({
         where: { id: parseInt(id) },
+        include: {
+            factura: true, // Incluye las facturas relacionadas
+        }
       });
       if (!client) {
         return res.status(404).json({ error: "client not found." });
       }
+      console.log(client);
+      
       res.json(client);
     } catch (error) {
       res

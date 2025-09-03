@@ -7,6 +7,7 @@ import driverRouter from './src/router/driver.routes.js';
 import transportRouter from './src/router/transport.routes.js';
 import forhideRouter from './src/router/forhide.routes.js';
 import clientRouter from './src/router/cliente.routes.js';
+import facturaCliente from './src/router/facturaCliente.routes.js';
 
 //dotenv.config();
 
@@ -23,6 +24,8 @@ app.use('/api/v1', driverRouter);
 app.use('/api/v1', transportRouter);
 app.use('/api/v1', forhideRouter);
 app.use('/api/v1', clientRouter);
+app.use('/api/v1', facturaCliente);
+
 
 const PORT = process.env.PORT || 4000;
 

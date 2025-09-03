@@ -162,15 +162,6 @@ model Client {
   @@map("client")
 }
 
-model Presupuesto {
-  id         Int      @id @default(autoincrement())
-  name       String
-  cotizacion Float
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@map("presupuesto")
-}
 
 
 
@@ -183,13 +174,18 @@ model FacturaCliente {
   dolar           Float?
   cotizacionDolar Float?
   estado          String
-  cliente         Client              @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  cliente         Client?              @relation(fields: [clienteId], references: [id], onDelete: Cascade)
   clienteId       Int
   createdAt       DateTime                @default(now())
   updatedAt       DateTime                @updatedAt
 
   @@map("factura_cliente")
 }
+
+
+
+
+
 
 model reciboCobranzaCliente {
   id        Int      @id @default(autoincrement())

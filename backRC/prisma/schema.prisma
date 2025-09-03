@@ -147,12 +147,15 @@ model OrderGuide {
 
 //Administracion
 
+
+
+
 model Client {
   id        Int                     @id @default(autoincrement())
   name      String
   celular   String
   email     String
-  factura   ClienteFacturaCliente[]
+  factura   FacturaCliente[]
   createdAt DateTime                @default(now())
   updatedAt DateTime                @updatedAt
 
@@ -169,31 +172,19 @@ model Presupuesto {
   @@map("presupuesto")
 }
 
-model ClienteFacturaCliente {
-  id               Int            @id @default(autoincrement())
-  name             String
-  valor            Float
-  clientId         Int
-  client           Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  facturaClienteId Int
-  facturaCliente   FacturaCliente @relation(fields: [facturaClienteId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("cliente_factura_cliente")
-}
 
 model FacturaCliente {
   id              Int                     @id @default(autoincrement())
   name            String
   valor           Float
-  efectivo        Float
-  cheque          Float
-  dolar           Float
-  cotizacionDolar Float
+  efectivo        Float?
+  cheque          Float?
+  dolar           Float?
+  cotizacionDolar Float?
   estado          String
-  cliente         ClienteFacturaCliente[]
+  cliente         Client              @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  clienteId       Int
   createdAt       DateTime                @default(now())
   updatedAt       DateTime                @updatedAt
 
